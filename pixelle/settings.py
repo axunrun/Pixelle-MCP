@@ -81,6 +81,11 @@ class Settings(BaseSettings):
     qwen_api_key: str = ""
     qwen_models: str = ""
     
+    # Custom OpenAI-compatible
+    custom_base_url: str = ""
+    custom_api_key: str = ""
+    custom_models: str = ""
+    
     # Default model
     chainlit_chat_default_model: str = "gpt-4o-mini"
     
