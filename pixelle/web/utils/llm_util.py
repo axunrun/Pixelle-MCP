@@ -91,6 +91,19 @@ logger.info(f"QWEN_API_KEY: {QWEN_API_KEY}")
 logger.info(f"Found {len(qwen_models)} Qwen models: {qwen_models}")
 
 
+# Custom OpenAI-compatible config
+CUSTOM_BASE_URL = settings.custom_base_url
+CUSTOM_API_KEY = settings.custom_api_key
+CUSTOM_MODELS = settings.custom_models
+custom_models = [model.strip() for model in CUSTOM_MODELS.split(",") if model.strip()]
+if custom_models and not CUSTOM_BASE_URL:
+    custom_models.clear()
+    logger.warning("No Custom base URL found, ignore Custom models, you can set `CUSTOM_BASE_URL` in `.env` to enable Custom models")
+logger.info(f"CUSTOM_BASE_URL: {CUSTOM_BASE_URL}")
+logger.info(f"CUSTOM_API_KEY: {CUSTOM_API_KEY}")
+logger.info(f"Found {len(custom_models)} Custom models: {custom_models}")
+
+
 # At least one model should be configured
 if not any([
     openai_models,
@@ -99,6 +112,7 @@ if not any([
     deepseek_models,
     claude_models,
     qwen_models,
+    custom_models,
 ]):
     raise ValueError(
         "Configuration Error: No models configured; please set at least one model in `.env` "
@@ -114,6 +128,7 @@ class ModelType(Enum):
     DEEPSEEK = "deepseek"
     CLAUDE = "claude"
     QWEN = "qwen"
+    CUSTOM = "custom"
 
 
 class ModelInfo(BaseModel):
@@ -205,8 +220,7 @@ def get_qwen_models() -> list[ModelInfo]:
         for model in qwen_models
     ]
 
-def get_all_models() -> list[ModelInfo]:
-    return get_openai_models() + get_ollama_models() + get_gemini_models() + get_deepseek_models() + get_claude_models() + get_qwen_models()
+
 
 def get_default_model() -> Union[ModelInfo, None]:
     for model_info in get_all_models():
