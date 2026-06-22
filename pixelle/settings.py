@@ -81,7 +81,7 @@ class Settings(BaseSettings):
     qwen_api_key: str = ""
     qwen_models: str = ""
     
-    # Custom OpenAI-compatible
+    # Custom OpenAI-compatible provider
     custom_base_url: str = ""
     custom_api_key: str = ""
     custom_models: str = ""
@@ -104,6 +104,8 @@ class Settings(BaseSettings):
             providers.append("claude")
         if self.qwen_api_key:
             providers.append("qwen")
+        if self.custom_api_key and self.custom_models:
+            providers.append("custom")
         return providers
     
     def get_all_available_models(self) -> list[str]:
@@ -127,6 +129,9 @@ class Settings(BaseSettings):
             
         if self.qwen_api_key and self.qwen_models:
             models.extend([m.strip() for m in self.qwen_models.split(",") if m.strip()])
+            
+        if self.custom_api_key and self.custom_models:
+            models.extend([m.strip() for m in self.custom_models.split(",") if m.strip()])
         
         return models
 

@@ -91,7 +91,7 @@ logger.info(f"QWEN_API_KEY: {QWEN_API_KEY}")
 logger.info(f"Found {len(qwen_models)} Qwen models: {qwen_models}")
 
 
-# Custom OpenAI-compatible config
+# Custom OpenAI-compatible provider
 CUSTOM_BASE_URL = settings.custom_base_url
 CUSTOM_API_KEY = settings.custom_api_key
 CUSTOM_MODELS = settings.custom_models
@@ -220,7 +220,6 @@ def get_qwen_models() -> list[ModelInfo]:
         for model in qwen_models
     ]
 
-
 def get_custom_models() -> list[ModelInfo]:
     return [
         ModelInfo(
@@ -234,6 +233,10 @@ def get_custom_models() -> list[ModelInfo]:
         for model in custom_models
     ]
 
+def get_all_models() -> list[ModelInfo]:
+    return (get_openai_models() + get_ollama_models() + get_gemini_models()
+            + get_deepseek_models() + get_claude_models() + get_qwen_models()
+            + get_custom_models())
 
 def get_default_model() -> Union[ModelInfo, None]:
     for model_info in get_all_models():
