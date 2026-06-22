@@ -35,5 +35,6 @@ EXPOSE 9004
 HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
     CMD curl -f http://localhost:9004/health || exit 1
 
+ENV PYTHONPATH=/app/.venv/lib/python3.11/site-packages
 # Run the application
 CMD ["python3", "-m", "pixelle.cli", "start"]
