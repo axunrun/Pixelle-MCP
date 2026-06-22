@@ -36,4 +36,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
     CMD curl -f http://localhost:9004/health || exit 1
 
 # Run the application
-CMD ["uv", "run", "pixelle", "start"]
+CMD ["python3", "-m", "pixelle.cli", "start"]
