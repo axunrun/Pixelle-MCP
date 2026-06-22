@@ -221,6 +221,19 @@ def get_qwen_models() -> list[ModelInfo]:
     ]
 
 
+def get_custom_models() -> list[ModelInfo]:
+    return [
+        ModelInfo(
+            type=ModelType.CUSTOM,
+            name=model,
+            base_url=CUSTOM_BASE_URL,
+            api_key=CUSTOM_API_KEY,
+            provider="openai",
+            model=model
+        )
+        for model in custom_models
+    ]
+
 
 def get_default_model() -> Union[ModelInfo, None]:
     for model_info in get_all_models():
